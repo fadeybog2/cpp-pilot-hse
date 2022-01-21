@@ -57,6 +57,14 @@
    ```
    git@gitlab.com:cpp-pilot-hse-2021/dept-group-Ivan-Ivanov-SuperVanechka1337.git
    ```
+   Проверить правильность выполнения можно по наличию репозиториев origin и student в выводе `git remote -v`
+   ```
+   $ git remote -v
+   origin	https://gitlab.com/levanovd/cpp-base-hse-2022 (fetch)
+   origin	https://gitlab.com/levanovd/cpp-base-hse-2022 (push)
+   student	git@gitlab.com:cpp-pilot-hse-2021/dept-group-Ivan-Ivanov-SuperVanechka1337.git (fetch)
+   student	git@gitlab.com:cpp-pilot-hse-2021/dept-group-Ivan-Ivanov-SuperVanechka1337.git (push)
+   ```
 
 ## Сдача задач
 
