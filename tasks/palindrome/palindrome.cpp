@@ -7,13 +7,13 @@ bool IsPalindrome(const std::string& str) {
         while (str[l] == ' ') {
             l++;
             if (l > r) {
-                break;
+                return true;
             }
         }
         while (str[r] == ' ') {
             r--;
             if (l > r) {
-                break;
+                return true;
             }
         }
         if (str[l] != str[r]) {
