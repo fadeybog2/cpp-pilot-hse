@@ -6,9 +6,15 @@ bool IsPalindrome(const std::string& str) {
     while (l <= r) {
         while (str[l] == ' ') {
             l++;
+            if (l > r) {
+                break;
+            }
         }
         while (str[r] == ' ') {
             r--;
+            if (l > r) {
+                break;
+            }
         }
         if (str[l] != str[r]) {
             return false;
