@@ -1,0 +1,5 @@
+{
+    "allow_change": "scorer.cpp",
+    "tests": "test_scorer",
+    "solutions": "private"
+}

@@ -1,0 +1,5 @@
+{
+    "allow_change": "admission.cpp",
+    "tests": "test_admission",
+    "solutions": "private"
+}

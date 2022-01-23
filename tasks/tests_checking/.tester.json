@@ -1,0 +1,6 @@
+{
+    "allow_change": "tests_checking.cpp",
+    "tests": "test_tests_checking",
+    "solutions": "private"
+}
+

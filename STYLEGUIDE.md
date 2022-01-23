@@ -182,20 +182,20 @@
 2.  Передавайте аргументы в функции по константной ссылке везде, где это уместно:
     ```cpp
     // плохо
-    void print_vector(vector<int> v) {
+    void PrintVector(vector<int> v) {
         ...
     }
     ```
     ```cpp
     // хорошо
-    void print_vector(const vector<int>& v) {
+    void PrintVector(const vector<int>& v) {
         ...
     }
     ```
 3.  Не создавайте функции с избыточным числом аргументов. Например, в функцию, печатающую вектор, не нужно передавать размер вектора.
     ```cpp
     // плохо
-    void print_vector(const vector<int>& v, int n) {
+    void PrintVector(const vector<int>& v, int n) {
         for (size_t i = 0; i < n; ++i) {
             cout << v[i] << " ";
         }
@@ -203,7 +203,7 @@
     ```
     ```cpp
     // хорошо
-    void print_vector(const vector<int>& v) {
+    void PrintVector(const vector<int>& v) {
         // Используйте v.size(), чтобы получить длину вектора
         for (size_t i = 0; i < v.size(); ++i) {
             cout << v[i] << " ";
@@ -214,7 +214,7 @@
 и требуется написать функцию, которая печатает этот путь.
     ```cpp
     // плохо
-    void print_way(const vector<int>& way) {
+    void PrintWay(const vector<int>& way) {
         for (size_t i = 0; i < way.size(); ++i) {
             cout << way[i] << " ";
         }
@@ -222,7 +222,7 @@
     ```
     ```cpp
     // хорошо
-    void print_vector(const vector<int>& v) {
+    void PrintVector(const vector<int>& v) {
         for (size_t i = 0; i < v.size(); ++i) {
             cout << v[i] << " ";
         }
@@ -230,14 +230,14 @@
 
     // или
 
-    void print_vector(const vector<int>& v) {
+    void PrintVector(const vector<int>& v) {
         for (size_t i = 0; i < v.size(); ++i) {
             cout << v[i] << " ";
         }
     }
 
-    void print_way(const vector<int>& way) {
-        print_vector(way);
+    void PrintWay(const vector<int>& way) {
+        PrintVector(way);
     }
     ```
     Плохой вариант плох тем, что теряется свойство переиспользования у функции: будет неуместно использовать `print_way` в другом проекте, где, скажем, нужно будет распечатать вектор оценок.

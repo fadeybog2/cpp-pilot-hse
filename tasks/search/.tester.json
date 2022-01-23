@@ -1,0 +1,5 @@
+{
+    "allow_change": "search.cpp",
+    "tests": "test_search",
+    "solutions": "private"
+}

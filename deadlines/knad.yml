@@ -17,3 +17,20 @@
       score: 100
     - task: sort_students
       score: 100
+
+- group:    02-homework-two
+  start:    24-01-2022 00:00
+  deadline: 06-02-2022 23:59
+  tasks:
+    - task: admission
+      score: 100
+    - task: scorer
+      score: 100
+    - task: search
+      score: 200
+    - task: tests_checking
+      score: 100
+    - task: unixpath
+      score: 100
+    - task: word2vec
+      score: 100
