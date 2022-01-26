@@ -1,5 +1,7 @@
 #include "admission.h"
+
 #include <algorithm>
+
 bool ComparatorApplicant(const Applicant* lhs, const Applicant* rhs) {
     int lhs_points = -lhs->points;
     int rhs_points = -rhs->points;
@@ -25,25 +27,17 @@ AdmissionTable FillUniversities(const std::vector<University>& universities, con
     }
     std::sort(appls.begin(), appls.end(), ComparatorApplicant);
 
+    std::unordered_map<std::string, size_t> max_students;
+    for (const auto& univ : universities) {
+        max_students[univ.name] = univ.max_students;
+    }
+
     AdmissionTable adm_table;
     for (const auto& appl : appls) {
         for (const auto& wish_univer : appl->wish_list) {
-            auto find_univ1 = [&wish_univer](auto arg) { return arg.first == wish_univer; };
-            auto it = std::find_if(adm_table.begin(), adm_table.end(), find_univ1);
-            if (it == adm_table.end()) {
-                auto find_appl = [&appl](auto& arg) { return &arg.student == &appl->student; };
-                std::vector<const Student*> stud_vector{
-                    &std::find_if(applicants.begin(), applicants.end(), find_appl)->student};
-                adm_table.insert(std::pair(wish_univer, stud_vector));
+            if (adm_table[wish_univer].size() < max_students[wish_univer]) {
+                adm_table[wish_univer].push_back(&appl->student);
                 break;
-            } else {
-                size_t av_places;
-                auto find_univ2 = [&wish_univer](auto& arg) { return arg.name == wish_univer; };
-                av_places = std::find_if(universities.begin(), universities.end(), find_univ2)->max_students;
-                if (adm_table[wish_univer].size() < av_places) {
-                    adm_table[wish_univer].push_back(&appl->student);
-                    break;
-                }
             }
         }
     }
