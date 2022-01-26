@@ -1,11 +1,11 @@
 #include "tests_checking.h"
 
-#include <list>
+#include <deque>
 
 std::vector<std::string> StudentsOrder(const std::vector<StudentAction>& student_actions,
                                        const std::vector<size_t>& queries) {
     std::vector<std::string> answer;
-    std::list<std::string> stack;
+    std::deque<std::string> stack;
     for (const auto& action : student_actions) {
         switch (action.side) {
             case Side::Bottom:
@@ -16,9 +16,8 @@ std::vector<std::string> StudentsOrder(const std::vector<StudentAction>& student
                 break;
         }
     }
-    std::vector<std::string> stack_vec(stack.begin(), stack.end());
     for (const auto& query : queries) {
-        answer.push_back(stack_vec[query - 1]);
+        answer.push_back(stack[query - 1]);
     }
     return answer;
 }
