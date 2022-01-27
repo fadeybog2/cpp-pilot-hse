@@ -11,6 +11,9 @@ int ScalarMultiplication(std::vector<int> vector1, std::vector<int> vector2) {
 }
 std::vector<std::string> FindClosestWords(const std::vector<std::string>& words,
                                           const std::vector<std::vector<int>>& vectors) {
+    if (vectors.empty()) {
+        return std::vector<std::string>();
+    }
     std::vector<int> first_vec = vectors.front();
     std::vector<std::string> answer;
     int max_sc_mp = -1;
