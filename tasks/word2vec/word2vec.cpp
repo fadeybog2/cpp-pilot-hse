@@ -17,7 +17,7 @@ std::vector<std::string> FindClosestWords(const std::vector<std::string>& words,
     std::vector<int> first_vec = vectors.front();
     std::vector<std::string> answer;
     int max_sc_mp = -1;
-    for (size_t i = 0; i < vectors.size(); ++i) {
+    for (size_t i = 1; i < vectors.size(); ++i) {
         auto vec = vectors[i];
         int sc_mp = ScalarMultiplication(first_vec, vec);
         if (sc_mp > max_sc_mp) {
