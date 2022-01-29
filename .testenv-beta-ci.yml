@@ -8,7 +8,6 @@ stages:
 .check:
   stage: test
   image: cr.yandex/crpkun66rq02t8mpkpa4/cpp-course-build
-  allow_failure: true
   script:
     - cmake --version
     - mkdir -p build/solutions
