@@ -1,10 +1,6 @@
 #include "unixpath.h"
 
-void ReplaceDoubleSlash(std::string &str) {
-    while (str.find("//") != std::string::npos) {
-        str.replace(str.find("//"), 2, "/");
-    }
-}
+#include <vector>
 
 void RemoveLastSlash(std::string &str) {
     if (str.ends_with("/") && str.size() > 1) {
@@ -12,42 +8,54 @@ void RemoveLastSlash(std::string &str) {
     }
 }
 
-void AddLastSlash(std::string &str) {
-    if (!str.ends_with("/")) {
-        str.append("/");
+void SplitBySlash(std::string_view &str, std::vector<std::string_view> &result) {
+    while (!str.empty()) {
+        size_t sl_idx = str.find("/", 1);
+        if (sl_idx == std::string_view::npos) {
+            if (str.starts_with("/")) {
+                result.push_back(str.substr(1));
+            } else {
+                result.push_back(str.substr(0));
+            }
+            break;
+        } else {
+            if (str.starts_with("/")) {
+                result.push_back(str.substr(1, sl_idx - 1));
+            } else {
+                result.push_back(str.substr(0, sl_idx));
+            }
+        }
+        str.remove_prefix(sl_idx);
     }
 }
+
 std::string NormalizePath(std::string_view current_working_dir, std::string_view path) {
-    std::string norm_dir{current_working_dir};
-    std::string norm_path{path};
-
-    ReplaceDoubleSlash(norm_dir);
-    ReplaceDoubleSlash(norm_path);
-    RemoveLastSlash(norm_dir);
-    RemoveLastSlash(norm_path);
-    AddLastSlash(norm_path);
-    AddLastSlash(norm_dir);
-
-    std::string answer;
-    if (norm_path.starts_with("/")) {
-        answer = norm_path;
+    std::string answer("/");
+    std::vector<std::string_view> dirs;
+    if (path.starts_with("/")) {
+        SplitBySlash(path, dirs);
     } else {
-        answer = norm_dir + norm_path;
+        SplitBySlash(current_working_dir, dirs);
+        SplitBySlash(path, dirs);
     }
-    for (size_t i = 1; i < answer.size();) {
-        if (answer.substr(i).starts_with("../")) {
-            if (answer.find_last_of("/", i) == 0) {
-                answer.erase(0, 3);
+
+    for (size_t i = 0; i < dirs.size();) {
+        if (dirs[i] == "." || dirs[i].empty()) {
+            dirs.erase(dirs.begin() + i);
+        } else if (dirs[i] == "..") {
+            if (i == 0) {
+                dirs.erase(dirs.begin(), dirs.begin() + 1);
             } else {
-                size_t idx = answer.find_last_of("/", answer.find_last_of("/", i) - 1);
-                answer.erase(idx, 2 + i - idx);
-                i = idx;
+                dirs.erase(dirs.begin() + i - 1, dirs.begin() + i + 1);
+                i--;
             }
-        } else if (answer.substr(i).starts_with("./")) {
-            answer.erase(i, 2);
         } else {
-            i = answer.find("/", i) + 1;
+            i++;
         }
+    }
+    for (const auto &dir : dirs) {
+        answer.append(dir);
+        answer += "/";
     }
     RemoveLastSlash(answer);
     return answer;
