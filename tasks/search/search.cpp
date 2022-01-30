@@ -15,14 +15,14 @@ struct RelevString {
     double relevance = 0;
 };
 
-void SplitText(const std::string_view& text, std::vector<RelevString>& result) {
+void SplitText(const std::string_view& text, const std::string_view& lower_text, std::vector<RelevString>& result) {
     size_t beg = 0;
     size_t str_beg = 0;
     bool is_word = std::isalpha(text[beg]);
     for (size_t end = 0; end < text.size(); ++end) {
         if (end == text.size() - 1) {
             if (is_word) {
-                result.back().words.push_back(text.substr(beg, end - beg + 1));
+                result.back().words.push_back(lower_text.substr(beg, end - beg + 1));
                 is_word = false;
                 beg = end;
             }
@@ -33,7 +33,7 @@ void SplitText(const std::string_view& text, std::vector<RelevString>& result) {
             }
         } else {
             if (is_word) {
-                result.back().words.push_back(text.substr(beg, end - beg));
+                result.back().words.push_back(lower_text.substr(beg, end - beg));
                 is_word = false;
                 beg = end;
             }
@@ -81,13 +81,13 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
     std::vector<RelevString> rel_strs(1);
     std::string lower_text;
     std::string lower_query;
-    for (auto c : text) {
+    for (const auto& c : text) {
         lower_text.push_back(tolower(c));
     }
-    for (auto c : query) {
+    for (const auto& c : query) {
         lower_query.push_back(tolower(c));
     }
-    SplitText(lower_text, rel_strs);
+    SplitText(text, lower_text, rel_strs);
     SplitQuery(lower_query, splitted_query);
 
     size_t not_empty_strings_number = rel_strs.size();
