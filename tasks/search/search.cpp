@@ -53,9 +53,10 @@ void SplitQuery(const std::string_view& query, std::vector<std::string_view>& wo
     for (size_t end = 0; end < query.size(); ++end) {
         if (end == query.size() - 1) {
             if (is_word) {
+                if (std::isalpha(query[end])) {
+                    end++;
+                }
                 words.push_back(query.substr(beg, end - beg));
-                is_word = false;
-                beg = end;
             }
         } else if (std::isalpha(query[end])) {
             if (!is_word) {
@@ -78,7 +79,7 @@ bool Comparator(const RelevString& lhs, const RelevString& rhs) {
 
 std::vector<std::string_view> Search(std::string_view text, std::string_view query, size_t results_count) {
     std::vector<std::string_view> answer;
-    std::vector<std::string_view> splitted_query(1);
+    std::vector<std::string_view> splitted_query;
     std::vector<RelevString> rel_strs(1);
     std::string lower_text;
     std::string lower_query;
