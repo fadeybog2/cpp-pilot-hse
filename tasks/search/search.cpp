@@ -22,11 +22,11 @@ void SplitText(const std::string_view& text, const std::string_view& lower_text,
     for (size_t end = 0; end < text.size(); ++end) {
         if (end == text.size() - 1) {
             if (is_word) {
-                result.back().words.push_back(lower_text.substr(beg, end - beg + 1));
+                result.back().words.push_back(lower_text.substr(beg, end - beg));
                 is_word = false;
                 beg = end;
             }
-            result.back().str = text.substr(str_beg, end - str_beg);
+            result.back().str = text.substr(str_beg, end - str_beg + 1);
         } else if (std::isalpha(text[end])) {
             if (!is_word) {
                 beg = end;
