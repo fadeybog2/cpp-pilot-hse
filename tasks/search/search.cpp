@@ -26,6 +26,7 @@ void SplitText(const std::string_view& text, const std::string_view& lower_text,
                 is_word = false;
                 beg = end;
             }
+            result.back().str = text.substr(str_beg, end - str_beg);
         } else if (std::isalpha(text[end])) {
             if (!is_word) {
                 beg = end;
