@@ -40,7 +40,6 @@ ScoreTable GetScoredStudents(const Events& events, time_t score_time) {
                     tasks[event.student_name][event.task_name].time_merge = event.time;
                     tasks[event.student_name][event.task_name].merge_closed = true;
                 }
-                score_table[event.student_name].insert(event.task_name);
                 break;
         }
     }
