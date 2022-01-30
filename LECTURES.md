@@ -28,9 +28,19 @@
 - Ключевое слово `auto`
 - С-массивы и C-строки
 - Последовательные коллекции
-    - `std::string`
-    - `std::vector`
-    - `std::array`
-    - `std::list`
-    - `std::forward_list`
-    - `std::deque`
+  - `std::string`
+  - `std::vector`
+  - `std::array`
+  - `std::list`
+  - `std::forward_list`
+  - `std::deque`
+
+**Лекция 5** - 28.01.2022
+- Структуры
+  - `std::pair`, `std::tuple`
+  - `std::tie`
+  - Structured binding
+- Ассоциативные коллекции
+  - `std::map`, `std::set`
+  - `std::unordered_map`, `std::unordered_set`
+  - multi-версии map и set

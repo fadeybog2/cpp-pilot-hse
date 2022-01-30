@@ -1,0 +1,8 @@
+{
+    "allow_change": [
+        "unixpath.cpp",
+        "unixpath.h"
+    ],
+    "tests": "test_unixpath2",
+    "solutions": "private"
+}

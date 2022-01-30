@@ -1,0 +1,8 @@
+{
+    "allow_change": [
+        "minesweeper.cpp",
+        "minesweeper.h"
+    ],
+    "tests": "test_minesweeper",
+    "solutions": "private"
+}

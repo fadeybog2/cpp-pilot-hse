@@ -1,0 +1,8 @@
+{
+    "allow_change": [
+        "scorer.cpp",
+        "scorer.h"
+    ],
+    "tests": "test_scorer2",
+    "solutions": "private"
+}
