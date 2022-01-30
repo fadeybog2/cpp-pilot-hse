@@ -5,6 +5,8 @@
 #include <set>
 #include <algorithm>
 #include <cmath>
+#include <cctype>
+#include <string>
 
 struct RelevString {
     std::string_view str;
@@ -44,7 +46,7 @@ void SplitText(const std::string_view& text, std::vector<RelevString>& result) {
     }
 }
 
-void SplitQuery(std::string_view& query, std::vector<std::string_view>& words) {
+void SplitQuery(const std::string_view& query, std::vector<std::string_view>& words) {
     size_t beg = 0;
     bool is_word = std::isalpha(query[beg]);
     for (size_t end = 0; end < query.size(); ++end) {
@@ -77,8 +79,16 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
     std::vector<std::string_view> answer;
     std::vector<std::string_view> splitted_query(1);
     std::vector<RelevString> rel_strs(1);
-    SplitText(text, rel_strs);
-    SplitQuery(query, splitted_query);
+    std::string lower_text;
+    std::string lower_query;
+    for (auto c : text) {
+        lower_text.push_back(tolower(c));
+    }
+    for (auto c : query) {
+        lower_query.push_back(tolower(c));
+    }
+    SplitText(lower_text, rel_strs);
+    SplitQuery(lower_query, splitted_query);
 
     size_t not_empty_strings_number = rel_strs.size();
     for (size_t i = 0; i < rel_strs.size(); ++i) {
