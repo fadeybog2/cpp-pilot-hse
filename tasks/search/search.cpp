@@ -53,7 +53,7 @@ void SplitQuery(const std::string_view& query, std::vector<std::string_view>& wo
     for (size_t end = 0; end < query.size(); ++end) {
         if (end == query.size() - 1) {
             if (is_word) {
-                words.push_back(query.substr(beg, end - beg + 1));
+                words.push_back(query.substr(beg, end - beg));
                 is_word = false;
                 beg = end;
             }
@@ -92,26 +92,27 @@ std::vector<std::string_view> Search(std::string_view text, std::string_view que
     SplitQuery(lower_query, splitted_query);
 
     size_t not_empty_strings_number = rel_strs.size();
-    for (size_t i = 0; i < rel_strs.size(); ++i) {
-        if (rel_strs[i].words.empty()) {
+    for (const auto& rel_str : rel_strs) {
+        if (rel_str.words.empty()) {
             not_empty_strings_number--;
         }
     }
 
     std::unordered_map<std::string_view, double> idf;
     std::set<std::string_view> words_in_query(splitted_query.begin(), splitted_query.end());
-    for (const auto& str : rel_strs) {
-        for (const auto& word : str.words) {
+    for (auto& rel_str : rel_strs) {
+        for (const auto& word : rel_str.words) {
             if (words_in_query.contains(word)) {
-                idf[word] += 1.0 / not_empty_strings_number;
+                rel_str.tf[word] += 1.0 / rel_str.words.size();
             }
         }
     }
 
-    for (size_t i = 0; i < rel_strs.size(); ++i) {
-        for (const auto& word : rel_strs[i].words) {
-            if (words_in_query.contains(word)) {
-                rel_strs[i].tf[word] += 1.0 / rel_strs[i].words.size();
+    for (auto& rel_str : rel_strs) {
+        std::set<std::string_view> words_set(rel_str.words.begin(), rel_str.words.end());
+        for (const auto& word : words_in_query) {
+            if (words_set.contains(word)) {
+                idf[word] += 1.0 / not_empty_strings_number;
             }
         }
     }
