@@ -1,6 +1,9 @@
 #include "search.h"
 
+#include <algorithm>
+#include <cctype>
 #include <cmath>
+#include <functional>
 
 void SearchEngine::BuildIndex(std::string_view text) {
     index_.BuildIndex(text);
