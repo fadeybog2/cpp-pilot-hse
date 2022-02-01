@@ -2,6 +2,7 @@
 
 #include <string>
 #include <string_view>
+#include <vector>
 
 class UnixPath {
 public:
@@ -11,4 +12,10 @@ public:
 
     std::string GetAbsolutePath() const;
     std::string GetRelativePath() const;
+
+private:
+    std::vector<std::string_view> init_path_;
+    std::vector<std::string_view> cur_path_;
+    void SplitBySlash(std::string_view str, std::vector<std::string_view>& result);
+    void Normalize(std::vector<std::string_view>& dirs) const;
 };
