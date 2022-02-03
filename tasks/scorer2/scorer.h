@@ -19,9 +19,11 @@ public:
     void Reset();
 
     ScoreTable GetScoreTable() const;
+
+private:
     struct TaskState {
         bool check_success = false;
         bool merge_closed = true;
     };
-    std::map<StudentName, std::map<TaskName, TaskState>> student_tasks;
+    std::map<StudentName, std::map<TaskName, TaskState>> student_tasks_;
 };
