@@ -32,4 +32,23 @@ public:
     time_t GetGameTime() const;
 
     RenderedField RenderField() const;
+
+private:
+    GameStatus game_status_ = GameStatus::NOT_STARTED;
+    time_t start_time_;
+    time_t end_time_;
+    size_t mines_count_;
+    size_t opened_count_;
+    enum class CellState {
+        FLAGGED,
+        OPENED,
+        CLOSED,
+    };
+    struct FieldCell {
+        bool IsMine = false;
+        CellState cell_state = CellState::CLOSED;
+    };
+    size_t width_;
+    size_t height_;
+    FieldCell** field_;
 };
