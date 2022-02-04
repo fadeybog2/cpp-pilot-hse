@@ -32,6 +32,7 @@ public:
     time_t GetGameTime() const;
 
     RenderedField RenderField() const;
+    ~Minesweeper();
 
 private:
     GameStatus game_status_ = GameStatus::NOT_STARTED;
@@ -48,7 +49,7 @@ private:
         bool IsMine = false;
         CellState cell_state = CellState::CLOSED;
     };
-    size_t width_;
-    size_t height_;
-    FieldCell** field_;
+    size_t width_ = 0;
+    size_t height_ = 0;
+    FieldCell** field_ = nullptr;
 };

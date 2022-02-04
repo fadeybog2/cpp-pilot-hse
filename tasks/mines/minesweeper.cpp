@@ -9,6 +9,10 @@ Minesweeper::Minesweeper(size_t width, size_t height, const std::vector<Cell>& c
 }
 
 void Minesweeper::NewGame(size_t width, size_t height, size_t mines_count) {
+    for (size_t i = 0; i < height_; ++i) {
+        delete[] field_[i];
+    }
+    delete[] field_;
     game_status_ = GameStatus::NOT_STARTED;
     mines_count_ = mines_count;
     opened_count_ = 0;
@@ -30,6 +34,10 @@ void Minesweeper::NewGame(size_t width, size_t height, size_t mines_count) {
 }
 
 void Minesweeper::NewGame(size_t width, size_t height, const std::vector<Cell>& cells_with_mines) {
+    for (size_t i = 0; i < height_; ++i) {
+        delete[] field_[i];
+    }
+    delete[] field_;
     game_status_ = GameStatus::NOT_STARTED;
     mines_count_ = cells_with_mines.size();
     opened_count_ = 0;
@@ -166,4 +174,10 @@ Minesweeper::RenderedField Minesweeper::RenderField() const {
         }
     }
     return rendered_field;
+}
+Minesweeper::~Minesweeper() {
+    for (size_t i = 0; i < height_; ++i) {
+        delete[] field_[i];
+    }
+    delete[] field_;
 }
