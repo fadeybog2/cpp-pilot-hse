@@ -8,6 +8,7 @@
 void SearchEngine::BuildIndex(std::string_view text) {
     index_.BuildIndex(text);
 }
+
 void SearchEngine::Index::BuildIndex(std::string_view text) {
     size_t beg = 0;
     size_t str_beg = 0;
@@ -50,8 +51,8 @@ void SearchEngine::Index::BuildIndex(std::string_view text) {
     }
 }
 
-CustomSet SearchEngine::SplitQuery(std::string_view query) const {
-    CustomSet words;
+SearchEngine::CaseInsensitiveSet SearchEngine::SplitQuery(std::string_view query) const {
+    CaseInsensitiveSet words;
     size_t beg = 0;
     bool is_word = std::isalpha(query[beg]);
     for (size_t end = 0; end < query.size(); ++end) {
@@ -77,8 +78,9 @@ CustomSet SearchEngine::SplitQuery(std::string_view query) const {
     }
     return words;
 }
+
 std::vector<std::string_view> SearchEngine::Search(std::string_view query, size_t results_count) const {
-    CustomSet words_in_query = SplitQuery(query);
+    CaseInsensitiveSet words_in_query = SplitQuery(query);
     std::vector<std::pair<const Index::Document*, double>> result;
     for (const auto& doc : index_.docs) {
         result.push_back(std::pair(&doc, 0));
