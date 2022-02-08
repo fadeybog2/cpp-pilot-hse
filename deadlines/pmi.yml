@@ -36,8 +36,8 @@
       score: 100
 
 - group:    03-homework-three
-  start:    31-01-2021 00:00
-  deadline: 13-02-2021 23:59
+  start:    31-01-2022 00:00
+  deadline: 13-02-2022 23:59
   tasks:
     - task: mines
       score: 200

@@ -2,6 +2,14 @@
 
 #include "search.h"
 
+namespace {
+
+bool Belongs(std::string_view text, std::string_view result) {
+    return (result.data() >= text.data()) && (result.data() < (text.data() + text.size()));
+}
+
+} // namespace
+
 TEST_CASE("Search") {
     std::string_view text =
         "Lorem Ipsum is simply dummy text\n"
@@ -21,5 +29,12 @@ TEST_CASE("Search") {
     std::string_view query = "typesetting release";
     std::vector<std::string_view> expected = {"electronic typesetting, remaining essentially"};
 
-    REQUIRE(expected == Search(text, query, 1));
+    const auto& actual = Search(text, query, 1);
+
+    REQUIRE(expected == actual);
+    SECTION("Result can not use extra memory") {
+        for (const auto& doc : actual) {
+            REQUIRE(Belongs(text, doc));
+        }
+    }
 }
