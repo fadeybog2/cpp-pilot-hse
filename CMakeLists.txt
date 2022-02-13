@@ -36,3 +36,8 @@ add_subdirectory(tasks/mines)
 add_subdirectory(tasks/scorer2)
 add_subdirectory(tasks/search2)
 add_subdirectory(tasks/unixpath2)
+
+#4
+add_subdirectory(tasks/poly)
+add_subdirectory(tasks/vector)
+add_subdirectory(tasks/zip)

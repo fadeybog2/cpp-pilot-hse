@@ -1,0 +1,10 @@
+{
+    "allow_change": [
+        "zip.cpp",
+        "zip.h"
+    ],
+    "tests": "test_zip",
+    "solutions": "private",
+    "linter": false,
+    "build_type": ""
+}

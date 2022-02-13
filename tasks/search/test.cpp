@@ -8,7 +8,7 @@ bool Belongs(std::string_view text, std::string_view result) {
     return (result.data() >= text.data()) && (result.data() < (text.data() + text.size()));
 }
 
-} // namespace
+}  // namespace
 
 TEST_CASE("Search") {
     std::string_view text =

@@ -1,0 +1,8 @@
+{
+    "allow_change": [
+        "vector.h",
+        "vector.cpp"
+    ],
+    "tests": "test_vector",
+    "solutions": "private"
+}
