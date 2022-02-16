@@ -32,7 +32,7 @@ Vector::Vector(Vector& other) {
 
 Vector& Vector::operator=(const Vector& other) {
     size_ = capacity_ = other.size_;
-    delete data_;
+    delete[] data_;
     data_ = new ValueType[capacity_];
     for (SizeType i = 0; i < other.size_; ++i) {
         data_[i] = other.data_[i];
@@ -41,7 +41,7 @@ Vector& Vector::operator=(const Vector& other) {
 }
 
 Vector::~Vector() {
-    delete data_;
+    delete[] data_;
 }
 
 Vector::SizeType Vector::Size() const {
@@ -86,7 +86,7 @@ void Vector::Reserve(Vector::SizeType new_capacity) {
     for (SizeType i = 0; i < size_; ++i) {
         new_data[i] = data_[i];
     }
-    delete data_;
+    delete[] data_;
     capacity_ = new_capacity;
     data_ = new_data;
 }
