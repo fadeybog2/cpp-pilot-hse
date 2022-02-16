@@ -10,6 +10,9 @@ Vector::Vector() {
 Vector::Vector(size_t size) {
     size_ = capacity_ = size;
     data_ = new ValueType[capacity_];
+    for (SizeType i = 0; i < size_; ++i) {
+        data_[i] = 0;
+    }
 }
 
 Vector::Vector(std::initializer_list<ValueType> list) {
@@ -78,10 +81,21 @@ bool Vector::operator!=(const Vector& other) const {
 }
 
 std::strong_ordering Vector::operator<=>(const Vector& other) const {
-    return data_ <=> other.data_;
+    for (SizeType i = 0; i < std::min(size_, other.size_); ++i) {
+        if (data_[i] != other.data_[i]) {
+            return data_[i] <=> other.data_[i];
+        }
+    }
+    if (size_ != other.size_) {
+        return size_ <=> other.size_;
+    }
+    return std::strong_ordering::equal;
 }
 
 void Vector::Reserve(Vector::SizeType new_capacity) {
+    if (new_capacity <= capacity_) {
+        return;
+    }
     ValueType* new_data = new ValueType[new_capacity];
     for (SizeType i = 0; i < size_; ++i) {
         new_data[i] = data_[i];
@@ -96,7 +110,9 @@ void Vector::Clear() {
 }
 
 void Vector::PushBack(const Vector::ValueType& new_element) {
-    if (size_ == capacity_) {
+    if (capacity_ == 0) {
+        Reserve(1);
+    } else if (size_ == capacity_) {
         Reserve(capacity_ * 2);
     }
     data_[size_] = new_element;
@@ -114,7 +130,7 @@ void Vector::Swap(Vector& other) {
 }
 
 Vector::Iterator Vector::Begin() {
-    return Vector::Iterator();
+    return Vector::Iterator(data_);
 }
 
 Vector::Iterator Vector::End() {
