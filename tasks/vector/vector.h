@@ -14,7 +14,7 @@ public:
     class Iterator {
     public:
         explicit Iterator(ValueType* pointer);
-        Iterator();
+        Iterator() = default;
 
         ValueType& operator*() const;
         ValueType* operator->() const;
@@ -34,6 +34,9 @@ public:
         bool operator==(const Iterator& other) const;
         bool operator!=(const Iterator& other) const;
         std::strong_ordering operator<=>(const Iterator& other) const;
+
+    private:
+        ValueType* ptr_;
     };
 
     Vector();
@@ -69,4 +72,9 @@ public:
 
     Iterator begin();  // NOLINT
     Iterator end();    // NOLINT
+
+private:
+    SizeType size_;
+    SizeType capacity_;
+    ValueType* data_;
 };
