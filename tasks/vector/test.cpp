@@ -149,7 +149,7 @@ TEST_CASE("Failed reallocation") {
     auto* a_data = a.Data();
 
     try {
-        a.Reserve(std::numeric_limits<size_t>::max());
+        a.Reserve(0x10000000000);
     } catch (const std::bad_alloc&) {
         REQUIRE(a.Size() == 3);
         REQUIRE(a.Capacity() == a_capacity);
