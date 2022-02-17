@@ -25,7 +25,7 @@ Vector::Vector(std::initializer_list<ValueType> list) {
     }
 }
 
-Vector::Vector(Vector& other) {
+Vector::Vector(const Vector& other) {
     size_ = capacity_ = other.size_;
     data_ = new ValueType[capacity_];
     for (SizeType i = 0; i < other.size_; ++i) {
