@@ -4,7 +4,7 @@
 #include <string>
 
 using Value = std::string;
-using Iterator = std::forward_list<Value>::const_iterator;
+using Iterator = std::forward_list<std::string>::const_iterator;
 using ZippedPair = std::pair<const Value&, const Value&>;
 
 class Zipped {
@@ -13,22 +13,22 @@ public:
 
     class ZipIterator {
     public:
-        ZipIterator(Iterator it1, Iterator it2);
+        ZipIterator(Iterator it_a, Iterator it_b);
         ZippedPair operator*() const;
-        bool operator!=(const ZipIterator& other);
+        bool operator!=(const ZipIterator& other) const;
         void operator++();
 
     private:
         Iterator it_a_;
         Iterator it_b_;
     };
-    ZipIterator begin();  // NOLINT
-    ZipIterator end();    // NOLINT
+    ZipIterator begin() const;  // NOLINT
+    ZipIterator end() const;    // NOLINT
 private:
-    Iterator a_begin_;
-    Iterator a_end_;
-    Iterator b_begin_;
-    Iterator b_end_;
+    Iterator it_a_begin_;
+    Iterator it_a_end_;
+    Iterator it_b_begin_;
+    Iterator it_b_end_;
 };
 
 Zipped Zip(Iterator a_begin, Iterator a_end, Iterator b_begin, Iterator b_end);
