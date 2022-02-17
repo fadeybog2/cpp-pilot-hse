@@ -146,23 +146,6 @@ TEST_CASE("Reallocation") {
     }
 }
 
-TEST_CASE("Failed reallocation") {
-    Vector a{1, 3, 5};
-    auto a_capacity = a.Capacity();
-    auto* a_data = a.Data();
-
-    try {
-        a.Reserve(0x1000000000);
-    } catch (const std::bad_alloc&) {
-        REQUIRE(a.Size() == 3);
-        REQUIRE(a.Capacity() == a_capacity);
-        REQUIRE(a.Data() == a_data);
-        return;
-    }
-
-    FAIL("Expected bad_alloc");
-}
-
 TEST_CASE("Comparison") {
     REQUIRE(Vector({1, 2, 3}) == Vector({1, 2, 3}));
     REQUIRE(Vector({1, 2, 3}) != Vector({2, 3, 4}));
