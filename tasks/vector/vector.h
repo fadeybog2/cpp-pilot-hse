@@ -39,7 +39,7 @@ public:
     Vector();
     explicit Vector(size_t size);
     Vector(std::initializer_list<ValueType> list);
-    Vector(Vector& other);
+    Vector(const Vector& other);
     Vector& operator=(const Vector& other);
 
     ~Vector();

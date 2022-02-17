@@ -5,7 +5,10 @@
 #include <vector>
 
 namespace {
-void RequireEquality(const Vector& actual, const std::vector<int>& expected) {
+
+using StdVector = std::vector<Vector::ValueType>;
+
+void RequireEquality(const Vector& actual, const StdVector& expected) {
     REQUIRE(actual.Size() == expected.size());
     for (size_t i = 0; i < actual.Size(); ++i) {
         REQUIRE(actual[i] == expected[i]);
@@ -21,27 +24,27 @@ TEST_CASE("Constructors") {
     }
     {
         Vector a{1, 2, 3, 4};
-        RequireEquality(a, std::vector<int>{1, 2, 3, 4});
+        RequireEquality(a, StdVector{1, 2, 3, 4});
     }
     {
         Vector a(5);
-        RequireEquality(a, std::vector<int>(5));
+        RequireEquality(a, StdVector(5));
     }
 }
 
 TEST_CASE("Basic methods") {
     Vector a{1, 3, 5};
     REQUIRE(a.Capacity() == 3u);
-    RequireEquality(a, std::vector<int>{1, 3, 5});
+    RequireEquality(a, StdVector{1, 3, 5});
 
     a.PopBack();
-    RequireEquality(a, std::vector<int>{1, 3});
+    RequireEquality(a, StdVector{1, 3});
     a.Clear();
     REQUIRE(a.Capacity() == 3u);
-    RequireEquality(a, std::vector<int>());
+    RequireEquality(a, StdVector());
 
     a.PushBack(6);
-    RequireEquality(a, std::vector<int>{6});
+    RequireEquality(a, StdVector{6});
 
     Vector b{3, 4};
 
@@ -49,8 +52,8 @@ TEST_CASE("Basic methods") {
     auto* b_data = b.Data();
 
     a.Swap(b);
-    RequireEquality(a, std::vector<int>{3, 4});
-    RequireEquality(b, std::vector<int>{6});
+    RequireEquality(a, StdVector{3, 4});
+    RequireEquality(b, StdVector{6});
 
     REQUIRE(a_data == b.Data());
     REQUIRE(b_data == a.Data());
@@ -61,7 +64,7 @@ TEST_CASE("Modifications with []") {
     a[0] = 1;
     a[1] = 2;
     a[2] = 3;
-    RequireEquality(a, std::vector<int>{1, 2, 3});
+    RequireEquality(a, StdVector{1, 2, 3});
 }
 
 TEST_CASE("Iterators 1") {
@@ -70,8 +73,8 @@ TEST_CASE("Iterators 1") {
         a[i] = i;
     }
     {
-        int cur = 0;
-        for (int elem : a) {
+        Vector::ValueType cur = 0;
+        for (auto elem : a) {
             REQUIRE(cur++ == elem);
         }
     }
@@ -79,7 +82,7 @@ TEST_CASE("Iterators 1") {
     {
         auto first = a.Begin();
         auto last = a.End();
-        REQUIRE(last - first == a.Size());
+        REQUIRE(static_cast<Vector::SizeType>(last - first) == a.Size());
         REQUIRE(*first == 0);
 
         REQUIRE(first == a.Begin());
@@ -121,19 +124,19 @@ TEST_CASE("Iterators 2") {
     *(a.begin().operator->()) = 2;
     *((--a.end()).operator->()) = 4;
 
-    RequireEquality(a, std::vector<int>{2, 3, 4});
+    RequireEquality(a, StdVector{2, 3, 4});
 
     Vector::Iterator it;
     it = a.Begin() + 1;
     REQUIRE(*it == 3);
 }
 
-TEST_CASE("Reallocations") {
+TEST_CASE("Reallocation") {
     const int steps = 16;
     Vector data;
     for (int step = 0; step <= steps; ++step) {
-        std::vector<int> ok_data;
-        for (int i = 0; i <= (1 << step); ++i) {
+        StdVector ok_data;
+        for (Vector::ValueType i = 0; i <= (1 << step); ++i) {
             data.PushBack(i);
             ok_data.push_back(i);
         }
@@ -141,23 +144,6 @@ TEST_CASE("Reallocations") {
         REQUIRE(data.Capacity() == (1u << (step + 1)));
         data.Clear();
     }
-}
-
-TEST_CASE("Failed reallocation") {
-    Vector a{1, 3, 5};
-    auto a_capacity = a.Capacity();
-    auto* a_data = a.Data();
-
-    try {
-        a.Reserve(std::numeric_limits<size_t>::max());
-    } catch (const std::bad_alloc&) {
-        REQUIRE(a.Size() == 3);
-        REQUIRE(a.Capacity() == a_capacity);
-        REQUIRE(a.Data() == a_data);
-        return;
-    }
-
-    FAIL("Expected bad_alloc");
 }
 
 TEST_CASE("Comparison") {
@@ -177,7 +163,7 @@ TEST_CASE("Reserve") {
     REQUIRE(a.Size() == 0u);
     REQUIRE(a.Capacity() == 5u);
 
-    for (int i = 0; i < 5; ++i) {
+    for (Vector::ValueType i = 0; i < 5; ++i) {
         a.PushBack(i);
     }
 
