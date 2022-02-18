@@ -30,6 +30,9 @@ Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.size_)
 }
 
 Vector& Vector::operator=(const Vector& other) {
+    if (this == &other) {
+        return *this;
+    }
     ValueType* new_data = new ValueType[other.size_];
     size_ = other.size_;
     capacity_ = other.size_;
