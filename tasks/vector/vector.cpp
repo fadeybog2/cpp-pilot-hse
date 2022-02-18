@@ -2,21 +2,18 @@
 
 #include <algorithm>
 
-Vector::Vector() {
-    size_ = capacity_ = 0;
+Vector::Vector() : size_(0), capacity_(0) {
     data_ = new ValueType[capacity_];
 }
 
-Vector::Vector(size_t size) {
-    size_ = capacity_ = size;
+Vector::Vector(size_t size) : size_(size), capacity_(size) {
     data_ = new ValueType[capacity_];
     for (SizeType i = 0; i < size_; ++i) {
-        data_[i] = 0;
+        data_[i] = ValueType();
     }
 }
 
-Vector::Vector(std::initializer_list<ValueType> list) {
-    size_ = capacity_ = list.size();
+Vector::Vector(std::initializer_list<ValueType> list) : size_(list.size()), capacity_(list.size()) {
     data_ = new ValueType[capacity_];
     SizeType i = 0;
     for (const auto& val : list) {
@@ -25,8 +22,7 @@ Vector::Vector(std::initializer_list<ValueType> list) {
     }
 }
 
-Vector::Vector(const Vector& other) {
-    size_ = capacity_ = other.size_;
+Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.size_) {
     data_ = new ValueType[capacity_];
     for (SizeType i = 0; i < other.size_; ++i) {
         data_[i] = other.data_[i];
@@ -34,12 +30,14 @@ Vector::Vector(const Vector& other) {
 }
 
 Vector& Vector::operator=(const Vector& other) {
-    size_ = capacity_ = other.size_;
-    delete[] data_;
-    data_ = new ValueType[capacity_];
+    size_ = other.size_;
+    capacity_ = other.size_;
+    ValueType* new_data = new ValueType[capacity_];
     for (SizeType i = 0; i < other.size_; ++i) {
-        data_[i] = other.data_[i];
+        new_data[i] = other.data_[i];
     }
+    delete[] data_;
+    data_ = new_data;
     return *this;
 }
 
@@ -68,6 +66,9 @@ Vector::ValueType Vector::operator[](size_t position) const {
 }
 
 bool Vector::operator==(const Vector& other) const {
+    if (size_ != other.size_) {
+        return false;
+    }
     for (SizeType i = 0; i < size_; ++i) {
         if (data_[i] != other.data_[i]) {
             return false;
@@ -134,7 +135,7 @@ Vector::Iterator Vector::Begin() {
 }
 
 Vector::Iterator Vector::End() {
-    return Vector::Iterator(Begin() + size_);
+    return Vector::Iterator(data_ + size_);
 }
 
 Vector::Iterator Vector::begin() {
