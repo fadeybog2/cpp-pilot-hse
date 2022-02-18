@@ -6,7 +6,7 @@ Vector::Vector() : size_(0), capacity_(0) {
     data_ = new ValueType[capacity_];
 }
 
-Vector::Vector(size_t size) : size_(size), capacity_(size) {
+Vector::Vector(SizeType size) : size_(size), capacity_(size) {
     data_ = new ValueType[capacity_];
     for (SizeType i = 0; i < size_; ++i) {
         data_[i] = ValueType();
@@ -30,9 +30,9 @@ Vector::Vector(const Vector& other) : size_(other.size_), capacity_(other.size_)
 }
 
 Vector& Vector::operator=(const Vector& other) {
+    ValueType* new_data = new ValueType[other.size_];
     size_ = other.size_;
     capacity_ = other.size_;
-    ValueType* new_data = new ValueType[capacity_];
     for (SizeType i = 0; i < other.size_; ++i) {
         new_data[i] = other.data_[i];
     }
@@ -57,11 +57,11 @@ const Vector::ValueType* Vector::Data() const {
     return data_;
 }
 
-Vector::ValueType& Vector::operator[](size_t position) {
+Vector::ValueType& Vector::operator[](SizeType position) {
     return data_[position];
 }
 
-Vector::ValueType Vector::operator[](size_t position) const {
+Vector::ValueType Vector::operator[](SizeType position) const {
     return data_[position];
 }
 
