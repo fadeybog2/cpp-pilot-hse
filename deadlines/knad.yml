@@ -1,6 +1,6 @@
 - group:    04-homework-four
   start:    14-02-2022 00:00
-  deadline: 27-02-2022 23:59
+  deadline: 06-03-2022 23:59
   tasks:
     - task: poly
       score: 100
@@ -11,7 +11,7 @@
 
 - group:    03-homework-three
   start:    31-01-2022 00:00
-  deadline: 13-02-2022 23:59
+  deadline: 27-02-2022 23:59
   tasks:
     - task: mines
       score: 200
@@ -24,7 +24,7 @@
 
 - group:    02-homework-two
   start:    24-01-2022 00:00
-  deadline: 06-02-2022 23:59
+  deadline: 20-02-2022 23:59
   tasks:
     - task: admission
       score: 100
