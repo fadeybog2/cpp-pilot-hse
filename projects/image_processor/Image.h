@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class Image {
 public:
     struct Pixel {
