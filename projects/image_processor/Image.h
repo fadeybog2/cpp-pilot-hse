@@ -17,7 +17,7 @@ public:
         }
     }
 
-    int width_;
-    int height_;
+    int32_t width_;
+    int32_t height_;
     std::vector<std::vector<Pixel>> pixels_;
 };

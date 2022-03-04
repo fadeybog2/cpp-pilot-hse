@@ -7,4 +7,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 add_executable(image_processor
         image_processor.cpp
         BMP.cpp
-        ParseInput.cpp)
+        ParseInput.cpp
+        Filters.cpp)
