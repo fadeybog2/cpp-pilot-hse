@@ -6,7 +6,13 @@
 ParsedInput ParseCommandLine(int argc, char **argv) {
     ParsedInput parsed_input;
     parsed_input.input_file = std::string(argv[1]);
+    if (!parsed_input.input_file.ends_with(".bmp")) {
+        throw std::runtime_error("Error! Input file should be with .bmp extension.");
+    }
     parsed_input.output_file = std::string(argv[2]);
+    if (!parsed_input.output_file.ends_with(".bmp")) {
+        throw std::runtime_error("Error! Output file should be with .bmp extension.");
+    }
     for (int i = 3; i < argc; ++i) {
         std::string str(argv[i]);
         if (str.starts_with('-')) {
@@ -41,5 +47,11 @@ void ImageProcessor::Initialize(const std::vector<FilterOptions> &filter_options
 void ImageProcessor::ApplyFilters(Image &image) const {
     for (const auto &filter : filters_) {
         filter->Apply(image);
+    }
+}
+
+ImageProcessor::~ImageProcessor() {
+    for (const auto &ptr : filters_) {
+        delete ptr;
     }
 }

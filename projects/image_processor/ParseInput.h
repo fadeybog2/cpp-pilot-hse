@@ -24,4 +24,6 @@ public:
     void Initialize(const std::vector<FilterOptions> &filter_options);
 
     void ApplyFilters(Image &image) const;
+
+    ~ImageProcessor();
 };

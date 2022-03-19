@@ -10,11 +10,7 @@ public:
         uint8_t red;
     };
 
-    Image(int width, int height) : width_(width), height_(height) {
-        pixels_.resize(height_);
-        for (int i = 0; i < height_; ++i) {
-            pixels_[i].resize(width_);
-        }
+    Image(int width, int height) : width_(width), height_(height), pixels_(height_, std::vector<Pixel>(width_)) {
     }
 
     int32_t width_;

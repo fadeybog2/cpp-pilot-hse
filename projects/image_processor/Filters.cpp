@@ -1,13 +1,12 @@
 #include "Filters.h"
 
 #include <cmath>
-#include <iostream>
 
 void IConvFilter::Apply(Image &image) const {
     std::vector<std::vector<float>> kernel = GetKernel();
     int kernel_width = kernel.front().size();
     int kernel_height = kernel.size();
-    Image new_image(image);
+    Image new_image(image.width_, image.height_);
     for (int i = 0; i < image.height_; ++i) {
         for (int j = 0; j < image.width_; ++j) {
             float red = 0;
@@ -26,7 +25,6 @@ void IConvFilter::Apply(Image &image) const {
             new_image.pixels_[i][j].green = std::clamp(static_cast<int>(green), 0, 255);
             new_image.pixels_[i][j].blue = std::clamp(static_cast<int>(blue), 0, 255);
         }
-        std::cout << i << std::endl;
     }
     image = new_image;
 }
@@ -63,10 +61,9 @@ std::vector<std::vector<float>> SharpFilter::GetKernel() const {
 }
 
 void GrayScaleFilter::Apply(Image &image) const {
-    for (int i = 0; i < image.height_; ++i) {
-        for (int j = 0; j < image.width_; ++j) {
-            image.pixels_[i][j].blue = image.pixels_[i][j].green = image.pixels_[i][j].red =
-                0.114 * image.pixels_[i][j].blue + 0.587 * image.pixels_[i][j].green + 0.299 * image.pixels_[i][j].red;
+    for (auto &line : image.pixels_) {
+        for (auto &pixel : line) {
+            pixel.blue = pixel.green = pixel.red = 0.114 * pixel.blue + 0.587 * pixel.green + 0.299 * pixel.red;
         }
     }
 }
@@ -81,12 +78,12 @@ std::vector<std::vector<float>> EdgeFilter::GetKernel() const {
 void EdgeFilter::Apply(Image &image) const {
     GrayScaleFilter().Apply(image);
     IConvFilter::Apply(image);
-    for (int i = 0; i < image.height_; ++i) {
-        for (int j = 0; j < image.width_; ++j) {
-            if (image.pixels_[i][j].blue > threshold_) {
-                image.pixels_[i][j].blue = image.pixels_[i][j].green = image.pixels_[i][j].red = 255;
+    for (auto &line : image.pixels_) {
+        for (auto &pixel : line) {
+            if (pixel.blue > threshold_) {
+                pixel.blue = pixel.green = pixel.red = 255;
             } else {
-                image.pixels_[i][j].blue = image.pixels_[i][j].green = image.pixels_[i][j].red = 0;
+                pixel.blue = pixel.green = pixel.red = 0;
             }
         }
     }
