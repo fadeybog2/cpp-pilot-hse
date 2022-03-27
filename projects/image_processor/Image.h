@@ -5,9 +5,9 @@
 class Image {
 public:
     struct Pixel {
-        uint8_t blue;
-        uint8_t green;
-        uint8_t red;
+        float b;
+        float g;
+        float r;
     };
 
     Image(int width, int height) : width_(width), height_(height), pixels_(height_, std::vector<Pixel>(width_)) {

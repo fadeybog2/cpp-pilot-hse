@@ -60,6 +60,7 @@ private:
 class BlurFilter : public IConvFilter {
 public:
     explicit BlurFilter(std::vector<std::string> params);
+
     std::vector<std::vector<float>> GetKernel() const override;
 
 private:

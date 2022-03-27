@@ -21,8 +21,16 @@ Image BMPReader(const std::string &filename) {
     }
     Image image(info_header.width, info_header.height);
     auto padding = (4 - (info_header.width * 3) % 4) % 4;
+    uint8_t r, g, b;
     for (ssize_t i = info_header.height - 1; i >= 0; --i) {
-        file.read(reinterpret_cast<char *>(image.pixels_[i].data()), 3 * info_header.width);
+        for (int j = 0; j < info_header.width; ++j) {
+            file.read(reinterpret_cast<char *>(&b), 1);
+            file.read(reinterpret_cast<char *>(&g), 1);
+            file.read(reinterpret_cast<char *>(&r), 1);
+            image.pixels_[i][j].b = b / 255.;
+            image.pixels_[i][j].g = g / 255.;
+            image.pixels_[i][j].r = r / 255.;
+        }
         file.seekg(padding, file.cur);
     }
     file.close();
@@ -46,8 +54,16 @@ void BMPWriter(Image &image, const std::string &filename) {
 
     file.write(reinterpret_cast<char *>(&file_header), sizeof(BMPFileHeader));
     file.write(reinterpret_cast<char *>(&info_header), sizeof(BMPInfoHeader));
+    uint8_t r, g, b;
     for (ssize_t i = image.height_ - 1; i >= 0; --i) {
-        file.write(reinterpret_cast<char *>(image.pixels_[i].data()), 3 * image.width_);
+        for (int j = 0; j < info_header.width; ++j) {
+            b = static_cast<uint8_t>(image.pixels_[i][j].b * 255);
+            g = static_cast<uint8_t>(image.pixels_[i][j].g * 255);
+            r = static_cast<uint8_t>(image.pixels_[i][j].r * 255);
+            file.write(reinterpret_cast<char *>(&b), 1);
+            file.write(reinterpret_cast<char *>(&g), 1);
+            file.write(reinterpret_cast<char *>(&r), 1);
+        }
         file.seekp(padding, file.cur);
     }
     file.close();

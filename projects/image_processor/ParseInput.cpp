@@ -4,14 +4,17 @@
 #include <string>
 
 ParsedInput ParseCommandLine(int argc, char **argv) {
+    if (argc < 3) {
+        throw std::invalid_argument("Not enough arguments!");
+    }
     ParsedInput parsed_input;
     parsed_input.input_file = std::string(argv[1]);
     if (!parsed_input.input_file.ends_with(".bmp")) {
-        throw std::runtime_error("Error! Input file should be with .bmp extension.");
+        throw std::invalid_argument("Error! Input file should be with .bmp extension.");
     }
     parsed_input.output_file = std::string(argv[2]);
     if (!parsed_input.output_file.ends_with(".bmp")) {
-        throw std::runtime_error("Error! Output file should be with .bmp extension.");
+        throw std::invalid_argument("Error! Output file should be with .bmp extension.");
     }
     for (int i = 3; i < argc; ++i) {
         std::string str(argv[i]);
@@ -39,7 +42,7 @@ void ImageProcessor::Initialize(const std::vector<FilterOptions> &filter_options
         } else if (filter_name == "-blur") {
             filters_.push_back(new BlurFilter(params));
         } else {
-            throw std::runtime_error("Unknown filter!");
+            throw std::invalid_argument("Unknown filter!");
         }
     }
 }
