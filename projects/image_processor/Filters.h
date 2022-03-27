@@ -47,7 +47,7 @@ public:
 
 class EdgeFilter : public IConvFilter {
 public:
-    explicit EdgeFilter(std::vector<std::string> params);
+    explicit EdgeFilter(const std::vector<std::string> &params);
 
     std::vector<std::vector<float>> GetKernel() const override;
 
@@ -59,7 +59,7 @@ private:
 
 class BlurFilter : public IConvFilter {
 public:
-    explicit BlurFilter(std::vector<std::string> params);
+    explicit BlurFilter(const std::vector<std::string> &params);
 
     std::vector<std::vector<float>> GetKernel() const override;
 

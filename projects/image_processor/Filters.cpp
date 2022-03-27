@@ -68,7 +68,7 @@ void GrayScaleFilter::Apply(Image &image) const {
     }
 }
 
-EdgeFilter::EdgeFilter(std::vector<std::string> params) : threshold_(std::stoi(params[0])) {
+EdgeFilter::EdgeFilter(const std::vector<std::string> &params) : threshold_(std::stof(params[0])) {
 }
 
 std::vector<std::vector<float>> EdgeFilter::GetKernel() const {
@@ -89,7 +89,7 @@ void EdgeFilter::Apply(Image &image) const {
     }
 }
 
-BlurFilter::BlurFilter(std::vector<std::string> params) : sigma_(std::stof(params[0])) {
+BlurFilter::BlurFilter(const std::vector<std::string> &params) : sigma_(std::stof(params[0])) {
 }
 
 std::vector<std::vector<float>> BlurFilter::GetKernel() const {
